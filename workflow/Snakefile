@@ -1,0 +1,61 @@
+import os
+from os.path import join
+from pathlib import Path
+import shutil
+import pandas as pd
+
+configfile: 'config/config.yaml'
+
+# Load participants.tsv file
+df = pd.read_table(config['participants_tsv'])
+subjects = df.participant_id.to_list() 
+
+# Wildcards
+hemispheres = config['hemispheres']
+surfaces = config['surfaces']
+spaces = config['spaces']
+modalities = config['modalities']
+
+wildcard_constraints:
+    subject = "[-a-zA-Z0-9]+",
+    surfaces = "white|pial|sphere.reg",
+    space = "anat|mni|epi",
+    modality = "ceres_seg1|ceres_seg2|r1_map"
+
+rule all:
+    input:
+        #out = expand('output/denoising/correlation/{subject}/rsfMRI_den-ciftify.32k_fs_LR.pconn.nii', subject=subjects),
+        #surf = expand('output/midthickness/{space}/{subject}/{hemi}.inflated.{space}.32k_fs_LR.surf.gii', space=spaces, subject=subjects, hemi=hemispheres),
+        #labels = expand('output/cifti/dlabels/{space}/{subject}/rois.dlabel.nii', space=spaces, subject=subjects),
+        #suit = expand('output/suit/{subject}/wc{modality}_{subject}.nii', subject=subjects, modality=modalities),
+        #atlas = expand('output/suit/{subject}/diw_Cerebellum-SUIT_{subject}.nii', subject=subjects, modality=modalities),
+        #vbm = 'output/suit/patients/wcceres_seg2_S004-M101.nii'
+        smoothed = expand('output/suit/{subject}/iswc{modality}_{subject}.nii', subject=subjects, modality=modalities),
+        #grouped = expand('output/suit/{group}/swc{modality}_grouped.nii', group=['controls','patients'], modality=modalities),
+        #multivariate_gm = 'output/palm/gm_mdtb/multivariate_elapsed.csv',
+        #multivariate_wm = 'output/palm/wm/multivariate_elapsed.csv',
+        #clustermap = expand('output/palm/gm/{subject}/{subject}_clustermap_mni.dscalar.nii', subject=subjects)
+        #uncompressed = expand('output/uncompressed/mni/{subject}/epi_rest_mni.nii', subject=subjects),
+        #zscore = expand('output/uncompressed/mni/{subject}/clustermap_mni.nii', subject=subjects),
+        #conn = expand('output/conn/dtseries/{subject}/rsfMRI_den-conn-smooth-wishart.32k_fs_LR.dtseries.nii', subject=subjects)
+
+## EPI data preprocessing
+include: 'rules/preprocessing.smk'
+
+## Coregistration of EPI to anatomy to MNI
+include: 'rules/coregistration.smk'
+
+## Surface-based data sampling  
+include: 'rules/surface.smk'
+
+## Create cifti output
+include: 'rules/cifti.smk'
+
+## Run SUIT analyses
+include: 'rules/suit.smk'
+
+## Run PALM analyses
+include: 'rules/palm.smk'
+
+## Pre- and post-CONN steps
+include: 'rules/conn.smk'

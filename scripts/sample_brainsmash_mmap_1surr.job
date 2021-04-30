@@ -1,0 +1,12 @@
+#!/bin/bash
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=128000
+#SBATCH --time=12:00:00
+#SBATCH --job-name=brainsmash_sampling
+#SBATCH --account=ctb-akhanf-ab_cpu
+#SBATCH --output=/project/6050199/rhaast/03_Ongoing/melas/fmri/notebooks/out_brainsmash_vol/single_sampling_job.out
+
+source /home/rhaast/venv/neuroimager/bin/activate
+
+python /project/6050199/rhaast/03_Ongoing/melas/fmri/scripts/sample_brainsmash_mmap_1surr.py

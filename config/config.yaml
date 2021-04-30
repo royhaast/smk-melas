@@ -1,0 +1,57 @@
+# Input directives
+participants_tsv: config/participants.tsv
+input_dir: /scratch/rhaast/MELAS
+matlab: /cvmfs/restricted.computecanada.ca/easybuild/software/2017/Core/matlab/2018b/bin/matlab
+
+# Input data
+scans:
+  - 'rest'
+  - 'topup'
+
+hemispheres:
+  - 'lh'
+  - 'rh'
+  
+surfaces:
+  - 'white'
+  - 'pial'
+  - 'sphere.reg'
+
+spaces:
+  - 'anat'
+  - 'epi'
+  - 'mni'
+
+modalities:
+  - 'ceres_seg1'
+  - 'ceres_seg2'
+  - 'r1_map'
+
+# HCP MMP
+lh_mmp: 'resources/lh.hcp-mmp.32k_fs_LR.label.gii'
+rh_mmp: 'resources/rh.hcp-mmp.32k_fs_LR.label.gii'
+
+# Freesurfer
+fs_dir: /project/6007967/rhaast/04_MELAS/derivatives/freesurfer
+fs_license: /project/6007967/akhanf/opt/freesurfer/.license
+fs_setup: "export FS_LICENSE=/project/6007967/akhanf/opt/freesurfer/.license && export SUBJECTS_DIR=/project/6007967/rhaast/04_MELAS/derivatives/freesurfer &&"
+
+# Singularity
+standard: /project/6007967/akhanf/singularity/bids-apps/khanlab_neuroglia-core_latest.sif
+gradcorrect: /project/6007967/akhanf/singularity/bids-apps/khanlab_gradcorrect_v0.0.3.sif
+fmriprep: /project/6007967/akhanf/singularity/bids-apps/poldracklab_fmriprep_1.5.4.sif
+connectome_workbench: /project/6007967/software/transparentsingularity/connectome-workbench_1.4.1_20191117.simg/connectome-workbench_1.4.1_20191117.simg
+ciftify: /project/6007967/akhanf/singularity/bids-apps/tigrlab_fmriprep_ciftify_v1.3.2-2.3.3.sif
+
+# For gradient distortion correction
+coeff: resources/coeff_SC72CD.grad
+
+# For topup correction
+topup_config: resources/b02b0.cnf
+acqparams: resources/acqparams.txt
+
+# For slicetime correction
+slicetiming: resources/slicetiming.txt
+
+# For MNI coregistration
+MNI: resources/MNI152_T1_1p6mm_brain.nii.gz

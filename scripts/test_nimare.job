@@ -1,0 +1,12 @@
+#!/bin/bash
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=254000
+#SBATCH --time=4:00:00
+#SBATCH --job-name=nimare
+#SBATCH --account=ctb-akhanf-ab_cpu
+#SBATCH --output=/project/6050199/rhaast/03_Ongoing/melas/fmri/notebooks/out_neurosynth/nimar_job.out
+
+source /home/rhaast/venv/neuroimager/bin/activate
+
+python /project/6050199/rhaast/03_Ongoing/melas/fmri/scripts/test_nimare.py

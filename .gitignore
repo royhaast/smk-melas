@@ -1,0 +1,12 @@
+.*
+!/.gitignore
+!/.gitattributes
+/output/*
+/logs/* 
+/resources/*
+/scripts/spm12/*
+/scripts/cifti/*
+/scripts/wishart/*
+/visualization/*
+/notebooks/*
+/test/*
