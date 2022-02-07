@@ -1,5 +1,5 @@
 # Snakemake workflow: `smk-melas`
-Snakemake workflow for processing functional data from the 7T MELAS study
+Snakemake workflow for processing functional cerebellar data as described in "Neurodegenerative and functional signatures of the cerebellar cortex in m.3243A > G patients" (https://doi.org/10.1093/braincomms/fcac024)
 
 Inputs:
 - participants.tsv with target subject IDs
